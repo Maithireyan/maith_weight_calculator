@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maith's Weight Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #1E3C72, #2A5298);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            font-size: 28px;
+        }
+        input {
+            padding: 12px;
+            margin: 10px;
+            width: 85%;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            font-size: 16px;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 18px;
+            background: gold;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: white;
+            color: black;
+            transform: scale(1.05);
+        }
+        .egg-container {
+            margin-top: 30px;
+            font-size: 80px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .egg-container:active {
+            transform: scale(1.1);
+        }
+        .hidden {
+            display: none;
+        }
+        .animate-crack {
+            animation: crackEgg 0.5s ease-in-out forwards;
+        }
+        @keyframes crackEgg {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); opacity: 0.5; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        .result-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Maith's Weight Calculator</h1>
+        <div id="userForm">
+            <label for="name">Enter Your Name:</label>
+            <input type="text" id="name" placeholder="Your Name" required>
+            <label for="age">Enter Your Age:</label>
+            <input type="number" id="age" placeholder="Your Age" required>
+            <button onclick="startCalculation()">Start</button>
+        </div>
+        <div id="welcomeSection" class="hidden">
+            <h2 id="welcomeText"></h2>
+            <p>Tap the egg to break it and reveal your weight!</p>
+            <div class="egg-container" id="eggIcon" onclick="generateWeight()">🥚</div>
+        </div>
+        <div id="resultSection" class="hidden result-box">
+            <h2>Your Weight: <span id="weightValue"></span> kg</h2>
+            <p id="message"></p>
+            <button onclick="clearData()">Try Again</button>
+        </div>
+    </div>
+
+    <script>
+        function startCalculation() {
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            if (name === "" || age === "") {
+                alert("Please enter your name and age!");
+                return;
+            }
+            document.getElementById("userForm").classList.add("hidden");
+            document.getElementById("welcomeSection").classList.remove("hidden");
+            document.getElementById("welcomeText").innerText = `Welcome, ${name}!`;
+        }
+        function generateWeight() {
+            let weight = Math.floor(Math.random() * 61) + 40;
+            let message = "";
+            if (weight >= 40 && weight < 50) {
+                message = "Poda Oli Kuchi 🦎";
+            } else if (weight >= 50 && weight < 60) {
+                message = "Super da Mapla 👍🏻";
+            } else if (weight >= 60 && weight < 70) {
+                message = "Kattai maari irukye daa 🗿";
+            } else if (weight >= 70 && weight <= 100) {
+                message = "Poda Gundu K***i 🐷";
+            }
+            let egg = document.getElementById("eggIcon");
+            egg.classList.add("animate-crack");
+            setTimeout(() => {
+                egg.innerHTML = "💥";
+                document.getElementById("welcomeSection").classList.add("hidden");
+                document.getElementById("resultSection").classList.remove("hidden");
+                document.getElementById("weightValue").innerText = weight;
+                document.getElementById("message").innerText = message;
+            }, 500);
+        }
+        function clearData() {
+            document.getElementById("resultSection").classList.add("hidden");
+            document.getElementById("userForm").classList.remove("hidden");
+            document.getElementById("eggIcon").innerHTML = "🥚";
+            document.getElementById("eggIcon").classList.remove("animate-crack");
+            document.getElementById("name").value = "";
+            document.getElementById("age").value = "";
+        }
+    </script>
+
+</body>
+</html>
